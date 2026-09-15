@@ -19,6 +19,7 @@ Local mock OTP coverage: use `npx playwright test --project=local-mock`. These t
 - Local mock registration/login with email and WhatsApp OTP - **Implemented**: fake data and OTP `123456`.
 - Empty and malformed identifier data against local mock - **Implemented**.
 - Empty, incomplete, invalid, expired, and repeated live OTP attempts - **Blocked**: requires controlled live OTP mechanism.
+- Incomplete and expired OTP against local mock - **Implemented**.
 - Resend OTP against local mock - **Implemented**; live resend remains blocked.
 - Authenticated session refresh and unauthenticated protected-page access - **Blocked**: requires safe authenticated test account.
 - API response status/error handling - **Not executed**.

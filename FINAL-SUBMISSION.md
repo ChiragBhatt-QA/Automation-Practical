@@ -15,7 +15,7 @@
 - Fake email: `qa.user@example.test`
 - Fake mobile: `+15550001234`
 - Mock OTP: `123456`
-- Local mock result: **5/5 passed**
+- Local mock result: **7/7 passed**
 - Run command: `npx playwright test --project=local-mock`
 
 ## Final verified results

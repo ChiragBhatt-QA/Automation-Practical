@@ -36,6 +36,7 @@ function formPage(message = '') {
       }
       async function verifyOtp(){
         const otp=document.getElementById('otpInput').value;
+        if(!/^\\d{6}$/.test(otp)){return set('otpMessage','OTP must be 6 digits','error')}
         const r=await fetch('/api/otp/verify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({identifier,otp,mode})});
         const d=await r.json(); set('otpMessage',d.message,d.success?'success':'error'); if(d.success)location.href='/account';
       }
@@ -65,6 +66,11 @@ const server = http.createServer((request, response) => {
     if (!latestOtp.has(data.identifier)) return send(response, 400, JSON.stringify({ success: false, message: 'Request OTP first' }), 'application/json');
     latestOtp.set(data.identifier, { otp: '123456', attempts: 0, expired: false });
     send(response, 200, JSON.stringify({ success: true, message: 'A new OTP was sent' }), 'application/json');
+  });
+  if (request.method === 'POST' && url.pathname === '/api/otp/expire') return json(request, data => {
+    const record = latestOtp.get(data.identifier);
+    if (record) record.expired = true;
+    send(response, 200, JSON.stringify({ success: true }), 'application/json');
   });
   if (request.method === 'POST' && url.pathname === '/api/otp/verify') return json(request, data => {
     const record = latestOtp.get(data.identifier);

@@ -25,6 +25,26 @@ test.describe('OTP flows against the local mock service', () => {
     await expect(page.locator('#otpMessage')).toHaveText('Invalid OTP');
   });
 
+  test('rejects an incomplete OTP', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('#identifier').fill(identifier);
+    await page.getByRole('button', { name: 'Request OTP' }).click();
+    await page.locator('#otpInput').fill('123');
+    await page.getByRole('button', { name: 'Verify OTP' }).click();
+    await expect(page.locator('#otpMessage')).toHaveText('OTP must be 6 digits');
+  });
+
+  test('rejects an expired OTP', async ({ page, request }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Register' }).click();
+    await page.locator('#identifier').fill('expired.user@example.test');
+    await page.getByRole('button', { name: 'Request OTP' }).click();
+    await request.post('/api/otp/expire', { data: { identifier: 'expired.user@example.test' } });
+    await page.locator('#otpInput').fill('123456');
+    await page.getByRole('button', { name: 'Verify OTP' }).click();
+    await expect(page.locator('#otpMessage')).toHaveText('OTP expired');
+  });
+
   test('validates empty and malformed identifiers', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Request OTP' }).click();
