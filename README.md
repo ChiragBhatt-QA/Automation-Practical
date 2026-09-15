@@ -18,10 +18,15 @@ Do not put real customer data, passwords, OTPs, API keys, access tokens, or prod
 npx playwright test
 npx playwright test --headed
 npx playwright test tests/authentication.spec.ts
+npx playwright test --project=local-mock
 npx playwright show-report
 ```
 
 The configuration captures an HTML report, screenshots, traces, and videos for failures. It covers Chromium desktop and a mobile Chromium viewport.
+
+## Local mock OTP environment
+
+The local mock uses only fake data (`qa.user@example.test`, `+15550001234`) and OTP `123456`. Run `npx playwright test --project=local-mock` to verify valid registration, invalid OTP, identifier validation, WhatsApp selection, resend, and authenticated session behavior. This is controlled mock coverage and must be reported separately from live-site coverage.
 
 ## OTP strategy
 
@@ -29,4 +34,4 @@ The live application exposes OTP-based authentication, but this submission must 
 
 ## Current scope
 
-The included smoke tests use the verified homepage entry point and the assignment route observation. See `docs/test-scenarios.md` for the full planned matrix and `BUG-REPORT.md` for evidence-based findings.
+The included live smoke tests use the verified homepage entry point and the assignment route observation. The local mock suite demonstrates the OTP scenarios safely. See `docs/test-scenarios.md` for the full planned matrix and `BUG-REPORT.md` for evidence-based findings.

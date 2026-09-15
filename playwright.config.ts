@@ -13,7 +13,9 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'mobile-chromium', use: { ...devices['iPhone 13'] } },
+    { name: 'chromium', testMatch: /authentication\.spec\.ts/, use: { ...devices['Desktop Chrome'] } },
+    { name: 'mobile-chromium', testMatch: /authentication\.spec\.ts/, use: { ...devices['iPhone 13'] } },
+    { name: 'local-mock', testMatch: /local-mock-otp\.spec\.ts/, use: { baseURL: 'http://127.0.0.1:4173' } },
   ],
+  webServer: { command: 'node mock-app/server.js', url: 'http://127.0.0.1:4173', reuseExistingServer: false },
 });
