@@ -1,4 +1,4 @@
-# Kanaаa OTP Authentication QA Practical
+# Kanaа OTP Authentication QA Practical
 
 Playwright starter for the Kanaаa storefront authentication assignment.
 
